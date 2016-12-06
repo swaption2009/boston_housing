@@ -88,3 +88,27 @@ reg = fit_model(X_train, y_train)
 
 # Produce the value for 'max_depth'
 print "Parameter 'max_depth' is {} for the optimal model.".format(reg.get_params()['max_depth'])
+
+
+# PREDICTING THE DATA
+
+# Produce a matrix for client data
+client_data = [[5, 17, 15],  # Client 1
+               [4, 32, 22],  # Client 2
+               [8, 3, 12]]  # Client 3
+
+# Show predictions
+for i, price in enumerate(reg.predict(client_data)):
+    print "Predicted selling price for Client {}'s home: ${:,.2f}".format(i + 1, price)
+
+# Visualize prediction data
+from matplotlib import pyplot as plt
+
+clients = np.transpose(client_data)
+pred = reg.predict(client_data)
+for i, feat in enumerate(['RM', 'LSTAT', 'PTRATIO']):
+    plt.scatter(features[feat], prices, alpha=0.25, c=prices)
+    plt.scatter(clients[i], pred, color='black', marker='x', linewidths=2)
+    plt.xlabel(feat)
+    plt.ylabel('Price')
+    plt.show()
